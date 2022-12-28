@@ -5,16 +5,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AddTasktoListForm from './components/AddTaskToListForm';
 import UpdateTaskInListForm from './components/UpdateTaskInListForm';
 import ToDoList from './components/ToDoList';
-import './App.css';
+import CompletedTasks from './components/CompletedTasks';
 
+
+import './App.css';
 function App() {
-  
   const [toDoList, setToDoList]=useState([]);
+  const [completedTasksList, setCompletedTasksList]=useState([]);
   
   const [newTask, setNewTask] = useState('');
   const [updateData,setUpdateData] = useState('');
-  
+  const [newCompletedTask, setNewCompletedTask] = useState('');
 
+  
   const addTask = () =>{
     if(newTask)
     {
@@ -29,15 +32,16 @@ function App() {
     setToDoList(filteredTasks);
   }
 
-  const markTaskDone = (id)=>{
-    let remainingTasks=toDoList.map(task => {
+  const markTaskDone = (id,taskk)=>{
+    toDoList.map(task => {
       if(task.id === id)
       {
-        return ({...task, status: !task.status})
+        let filteredTask={...task, status: !task.status}
+        addCompletedTask(filteredTask);
+        let filteredTasks=toDoList.filter(task => task.id !== id);
+        setToDoList(filteredTasks);
       }
-      return task;
     })
-    setToDoList(remainingTasks);
   }
 
   const cancelTaskUpdate = ()=>{
@@ -58,6 +62,22 @@ function App() {
     setToDoList(newCombinedObject);
     setUpdateData('');
   }
+
+  const addCompletedTask = (task) =>{
+      let taskId=completedTasksList.length+1;
+      console.log(task);
+      let entry={id:taskId, title:task.title, status:false}
+      setCompletedTasksList([...completedTasksList,entry]);
+      setNewCompletedTask('');
+  }
+  
+  
+  
+  const deleteCompletedTasks = (id) =>
+  {
+    let filteredTasks=completedTasksList.filter(task => task.id !== id);
+    setCompletedTasksList(filteredTasks);
+  }
   return (
     <div className="container App">
       <br/><br/>
@@ -75,7 +95,14 @@ function App() {
       
       {/* Display The To Do List */}
       {toDoList && toDoList.length ? '' : 'To Do List is Empty'}
-      <ToDoList toDoList={toDoList} markTaskDone={markTaskDone} setUpdateData={setUpdateData} deleteTask={deleteTask} />
+      <ToDoList toDoList={toDoList} markTaskDone={markTaskDone} setUpdateData={setUpdateData} deleteTask={deleteTask} newCompletedTask={newCompletedTask} addCompletedTask={addCompletedTask}/>
+
+    
+      <br/><br/>
+      <h2>Completed Tasks</h2>
+      <br/><br/>
+      {completedTasksList && completedTasksList.length ? '' : 'No Tasks in the completed tasks list'}
+      <CompletedTasks completedTasksList={completedTasksList} deleteCompletedTasks={deleteCompletedTasks}/>
       
     </div>
   );

@@ -3,7 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCircleXmark, faPen } from '@fortawesome/free-solid-svg-icons';
 
-const ToDoList= ({toDoList, markTaskDone, setUpdateData, deleteTask}) => {
+
+const ToDoList= ({toDoList, markTaskDone, setUpdateData, deleteTask, newCompletedTask, addCompletedTask}) => {
     return (
         <>
         { toDoList && toDoList
@@ -20,9 +21,11 @@ const ToDoList= ({toDoList, markTaskDone, setUpdateData, deleteTask}) => {
                     {/* Icons to make changes to the task */}
                     <div className='icons'>
                     {/* Icon to mark the task as done */}
-                    <span title="Task Done" onClick={()=> markTaskDone(task.id)}>
+                    {/* <button value={newCompletedTask} onClick={addCompletedTask(task)}> */}
+                    <span title="Task Done" onClick={()=> markTaskDone(task.id, task)}>
                       <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
                     </span>
+                    {/* </button> */}
                     {/* Icon to Edit a task */}
                     {task.status ? null: (
                       <span title="Edit Task" onClick={()=> setUpdateData({
