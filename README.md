@@ -13,3 +13,6 @@ Different functionalities added in the ToDoList are:
 3. Mark Task Done: Mark the task as done by clicking on the tick icon
 4. Delete Task: Delete the task by clicking on the cross icon
 5. Cancel Update Task: Cancel the task updation by clicking on cancel button
+
+
+Completed Tasks List shows the list of all the tasks which have been marked as done.
